@@ -2,5 +2,5 @@
 ```
 docker-compose up -d;
 docker-compose exec template-fpm composer install;
-docker-compose exec template-fpm bin/console d:m:m 
+docker-compose exec template-fpm bin/console d:m:m;
 ```
