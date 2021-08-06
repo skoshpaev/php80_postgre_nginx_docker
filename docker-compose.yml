@@ -1,0 +1,49 @@
+version: "2"
+services:
+
+  template-nginx:
+    image: nginx:alpine
+    container_name: template-nginx
+    volumes:
+      - ./docker/logs/nginx:/var/log/nginx
+      - ./:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    links:
+      - template-fpm
+    networks:
+      - symfony
+
+  template-fpm:
+    image: "koshpaevsv/php807"
+    container_name: template-fpm
+    user: 1000:1000
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    expose:
+      - 9000
+    links:
+      - template-postgres
+    networks:
+      - symfony
+
+  template-postgres:
+    image: postgres:13
+    container_name: template-postgres
+    environment:
+      POSTGRES_DB: symfony
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: symfony
+    volumes:
+      - ./docker/data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+    networks:
+      - symfony
+
+networks:
+  symfony:
+    external:
+      name: symfony

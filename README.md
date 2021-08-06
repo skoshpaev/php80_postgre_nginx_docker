@@ -1,0 +1,1 @@
+# Php 8.0 + Postgres + NGINX + symfony 5.3 + authentication
